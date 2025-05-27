@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accés al Cofre - Presentació i Pregunta</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+      background-color: #f3e8d0;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+    .dialog {
+      position: relative;
+      background: rgba(45, 55, 72, 0.9);
+      color: #edf2f7;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      max-width: 280px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-bottom: 1rem;
+    }
+    .dialog::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+      width: 0;
+      height: 0;
+      border: 15px solid transparent;
+      border-top-color: rgba(45, 55, 72, 0.9);
+      border-bottom: 0;
+      margin-left: -7.5px;
+      margin-bottom: -15px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+
+  <div class="bg-white/80 backdrop-blur-sm shadow-2xl rounded-2xl max-w-md w-full p-8 border border-neutral-200 flex flex-col items-center">
+
+    <img src="images/personatge1.png" alt="Pirata parlant" class="float w-40 rounded-xl shadow-lg mb-6" />
+
+    <!-- Div de presentació inicial -->
+    <div id="intro-dialog" class="dialog text-center">
+      Hola, sóc un advocat pirata! 🏴‍☠️<br />
+      Abans d'accedir al tresor, respon aquesta pregunta:
+    </div>
+
+    <button id="intro-btn" class="bg-neutral-800 text-white py-2 px-6 rounded-lg hover:bg-neutral-900 transition mb-6">
+      OK
+    </button>
+
+    <!-- Div pregunta + input (ocult per ara) -->
+    <div id="question-section" class="hidden flex flex-col items-center w-full">
+      <div class="dialog" id="dialog-text">
+        Quantes cadires hi ha a la facultat de comunicació?
+      </div>
+
+      <input
+        id="answer-input"
+        type="text"
+        placeholder="Escriu la resposta aquí..."
+        class="w-full rounded-md px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-neutral-800 mb-4"
+      />
+
+      <div class="flex w-full gap-4">
+        <button
+          id="submit-btn"
+          class="flex-1 bg-neutral-800 text-white py-3 rounded-lg hover:bg-neutral-900 transition font-semibold"
+        >
+          Comprova
+        </button>
+
+        <button
+          id="back-btn"
+          class="flex-1 bg-gray-400 text-black py-3 rounded-lg hover:bg-gray-500 transition font-semibold"
+        >
+          Tornar
+        </button>
+      </div>
+
+      <p id="result-message" class="mt-4 font-semibold text-center"></p>
+    </div>
+
+  </div>
+
+  <div id="cofre" class="hidden fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+    <div class="bg-white text-center p-8 rounded-2xl shadow-xl max-w-md w-full">
+      <h2 class="text-2xl font-semibold text-neutral-800 mb-4">Accés concedit</h2>
+      <p class="text-neutral-600 mb-4">Has trobat el tresor ocult. Enhorabona, grumet!</p>
+      <button
+        onclick="tancarCofre()"
+        class="mt-2 px-5 py-2 bg-neutral-800 text-white rounded-lg hover:bg-neutral-900"
+      >
+        Tancar
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const introBtn = document.getElementById('intro-btn');
+    const introDialog = document.getElementById('intro-dialog');
+    const questionSection = document.getElementById('question-section');
+    const dialogText = document.getElementById("dialog-text");
+    const input = document.getElementById("answer-input");
+    const submitBtn = document.getElementById("submit-btn");
+    const backBtn = document.getElementById("back-btn");
+    const result = document.getElementById("result-message");
+    const cofre = document.getElementById("cofre");
+
+    const correctAnswer = "1500";  // Resposta correcta
+    const keyword = "corsari";      // Paraula clau
+
+    introBtn.addEventListener("click", () => {
+      introDialog.style.display = "none";
+      introBtn.style.display = "none";
+      questionSection.classList.remove("hidden");
+    });
+
+    submitBtn.addEventListener("click", () => {
+      const userAnswer = input.value.trim();
+      if (userAnswer === "") {
+        result.textContent = "Si us plau, escriu una resposta.";
+        result.className = "mt-4 font-semibold text-center text-yellow-500";
+        return;
+      }
+
+      if (userAnswer === correctAnswer) {
+        dialogText.textContent = `Correcte! La paraula clau és: ${keyword}`;
+        result.textContent = "";
+        input.value = "";
+        input.disabled = true;
+        submitBtn.disabled = true;
+        backBtn.disabled = true;
+        result.className = "mt-4 font-semibold text-center text-green-600";
+
+        setTimeout(() => {
+          cofre.classList.remove("hidden");
+        }, 1200);
+      } else {
+        result.textContent = "Resposta incorrecta. Torna-ho a intentar!";
+        result.className = "mt-4 font-semibold text-center text-red-600";
+      }
+    });
+
+    backBtn.addEventListener("click", () => {
+      questionSection.classList.add("hidden");
+      introDialog.style.display = "block";
+      introBtn.style.display = "inline-block";
+      result.textContent = "";
+      input.value = "";
+      input.disabled = false;
+      submitBtn.disabled = false;
+      backBtn.disabled = false;
+      dialogText.textContent = "Quantes cadires hi ha a la facultat de comunicació?";
+    });
+
+    function tancarCofre() {
+      cofre.classList.add("hidden");
+      input.disabled = false;
+      submitBtn.disabled = false;
+      backBtn.disabled = false;
+      dialogText.textContent = "Quantes cadires hi ha a la facultat de comunicació?";
+      result.textContent = "";
+      questionSection.classList.remove("hidden");
+      introDialog.style.display = "none";
+      introBtn.style.display = "none";
+    }
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        submitBtn.click();
+      }
+    });
+  </script>
+
+</body>
+</html>

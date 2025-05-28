@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plaça Cívica - Accés al Cofre</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Pirata+One&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+      background-color: #f3e8d0;
+      font-family: 'Cinzel', serif;
+      color: #2e260f;
+      padding: 0;
+      margin: 0;
+    }
+
+    .text-shadow {
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    }
+
+    .btn-pirata {
+      padding: 0.85rem 1.25rem;
+      font-size: 1.125rem;
+      background-color: #bfa76f;
+      color: #2e260f;
+      border-radius: 0.75rem;
+      font-weight: bold;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      font-family: 'Cinzel', serif;
+      margin-top: 0.75rem;
+    }
+
+    .btn-pirata:hover {
+      background-color: #a68e5a;
+    }
+
+    #cofre {
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .bg-scroll-pirata {
+      background-image: url('Images/Copia de Dret.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    input {
+      font-family: 'Cinzel', serif;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="flex flex-col items-center min-h-screen px-4 py-6">
+    <h1 class="text-4xl font-bold text-center text-[#2e260f] text-shadow mb-6" style="font-family: 'Pirata One', cursive;">
+      Plaça Cívica
+    </h1>
+
+    <!-- Aquí quito justify-center -->
+    <div id="contenedor-principal" class="bg-scroll-pirata rounded-xl shadow-xl px-6 py-10 space-y-6 text-shadow text-[#3a2d12] backdrop-blur-sm bg-opacity-90 w-full max-w-md flex flex-col"></div>
+  </div>
+
+  <!-- Cofre Modal -->
+  <div id="cofre" class="hidden fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-6 text-center max-w-sm w-full">
+      <h2 class="text-2xl font-bold text-gray-800 mb-2">🏆 Accés concedit</h2>
+      <p class="text-gray-600 mb-4">Has trobat el tresor ocult. Enhorabona, grumet!</p>
+      <button onclick="tancarCofre()" class="btn-pirata">Tancar</button>
+    </div>
+  </div>
+
+  <script>
+    const contenedor = document.getElementById('contenedor-principal');
+
+    const historiaHTML = `
+      <div class="flex justify-center mb-4">
+        <img src="images/calavera.png" alt="Calavera" class="w-28 h-auto drop-shadow-md pointer-events-none" />
+      </div>
+      <p>
+        Fa molts segles, pirates de tot el món es reunien a la UAB, un lloc sagrat de coneixement i recerca. Van crear el Projecte Kraken per caçar la criatura més temuda dels oceans: el Kraken, un monstre gegantí amb tentacles poderosos.
+      </p>
+      <p>
+        La tripulació va lluitar amb valentia, però només un va sobreviure per explicar la història i ensenyar-la a les futures generacions.
+      </p>
+      <p>
+        Ara, seguint el seu llegat, ets tu qui ha de trobar la nova tripulació per continuar aquesta odissea.
+      </p>
+      <p>
+        La UAB torna a ser el cor de la recerca pirata i el lloc on trobaràs els set futurs corsaris. Guiat amb aquest mapa, on hi ha una indicació a la porta de cada facultat.
+      </p>
+      <div class="flex justify-center my-4">
+        <a href="images/mapauab.png" target="_blank">
+          <img src="images/mapauab.png" alt="Mapa pirata" class="w-full max-w-xs rounded shadow-md hover:scale-105 transition-transform duration-300" />
+        </a>
+      </div>
+      <div class="flex justify-center">
+        <button id="btnOk" class="btn-pirata">Tinc la clau</button>
+      </div>
+    `;
+
+    const formulariHTML = `
+      <p class="text-center font-bold">🔐 Introdueix la paraula secreta per obrir el cofre:</p>
+      <input type="text" id="clau" placeholder="Paraula secreta" class="w-full p-3 mt-6 mb-4 border border-[#8b7d4a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e260f88] text-[#2e260f] font-semibold" />
+      <div class="flex justify-center gap-4 mt-6">
+        <button id="btnTornar" class="btn-pirata">Tornar</button>
+        <button id="btnComprovar" class="btn-pirata">Comprovar</button>
+      </div>
+      <div id="missatge" class="text-center text-red-600 font-bold mt-3 min-h-[1.2rem]"></div>
+    `;
+
+    function mostrarHistoria() {
+      contenedor.innerHTML = historiaHTML;
+      contenedor.style.paddingTop = "";
+      document.getElementById('btnOk').addEventListener('click', mostrarFormulari);
+    }
+
+    function mostrarFormulari() {
+      contenedor.innerHTML = formulariHTML;
+      contenedor.style.paddingTop = "4rem";
+
+      const clauInput = document.getElementById('clau');
+      const missatge = document.getElementById('missatge');
+      const cofre = document.getElementById('cofre');
+
+      document.getElementById('btnTornar').addEventListener('click', () => {
+        missatge.textContent = '';
+        clauInput.value = '';
+        cofre.classList.add('hidden');
+        mostrarHistoria();
+      });
+
+      document.getElementById('btnComprovar').addEventListener('click', () => {
+        const clauCorrecta = "nautaes";
+        const entrada = clauInput.value.trim().toLowerCase();
+        if (entrada === clauCorrecta) {
+          missatge.textContent = '';
+          cofre.classList.remove('hidden');
+        } else {
+          missatge.textContent = '❌ Paraula incorrecta. Torna-ho a intentar.';
+          cofre.classList.add('hidden');
+        }
+      });
+    }
+
+    function tancarCofre() {
+      document.getElementById('cofre').classList.add('hidden');
+    }
+
+    window.tancarCofre = tancarCofre;
+    mostrarHistoria();
+  </script>
+</body>
+</html>

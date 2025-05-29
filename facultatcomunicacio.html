@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Facultat de Medicina - Extirpadents</title>
+  <title>Facultat de Comunicació - Crani-negre</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Pirata+One&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
@@ -15,23 +15,25 @@
 
   <div class="flex flex-col items-center min-h-screen px-4 py-6">
     <div class="header-wrapper">
-      <h1 class="title-pirata">Facultat de Medicina</h1>
+      <h1 class="title-pirata">Facultat de Comunicació</h1>
       <button class="btn-pirata mt-4" onclick="mostrarMapa()">🗺️ Mapa del tresor</button>
     </div>
 
     <div class="bg-scroll-pirata rounded-xl shadow-xl px-6 py-10 space-y-6 text-shadow text-[#3a2d12] backdrop-blur-sm bg-opacity-90 w-full max-w-md flex flex-col items-center">
-      <img src="images/personatge6.png" alt="Extirpadents" class="w-40 mb-6 rounded-xl shadow-lg float" />
+      <img src="images/personatge7.png" alt="Extirpadents" class="w-40 mb-6 rounded-xl shadow-lg float" />
 
       <div class="dialog">
-        <strong class="font-bold text-black">Sóc el senyor Extirpadents</strong>, antic barber de coberta i metge improvisat de tempestes.  
-        <br><br>
-        En alta mar, tot el que calia era un ganivet esmolat i un bon rom per fer de cirurgià... però avui, les claus no s’extreuen tan fàcilment.  
-        <br><br>
-        Demostra que tens cap, no només que en tens un! Heus aquí la meva prova:
+        Em diuen <strong class="font-bold text-black">Crani-negre</strong>, i vaig néixer amb un ull mirant el cel i l’altre vigilant l’horitzó.<br><br>
+        He estat vígia de centenars de naus, he avisat de tempestes abans que el vent bufés, i he vist monstres movent-se sota onades aparentment quietes.
+        Des de les meves altures, amb el telescopi sempre a mà, vaig veure com el Kraken emergia per primera vegada. Ningú em va creure. Van riure. I després... van desaparèixer.<br><br>
+        Des d’aleshores, espero. Espero algú capaç de veure més enllà del que és visible. Algú amb mirada de capità, no de grumet.
+        M’uniré a la vostra tripulació, sí. Però primer, heu de demostrar-me que teniu visió.
+        Aquí teniu la meva pregunta:
       </div>
 
       <div class="dialog">
-        <strong class="font-bold text-black">Quin és l’òrgan més gran del cos humà?</strong>
+        <strong class="font-bold text-black">Com s’anomena l’instrument que s’utilitza per observar objectes llunyans?
+        </strong>
       </div>
 
       <input type="text" id="clau" placeholder="Paraula secreta" />
@@ -46,7 +48,7 @@
   <!-- Modal Cofre -->
   <div id="cofre">
     <div class="modal-content">
-      <p><strong class="font-bold text-black">Enhorabona, has rebut l’Emblema del Tall Precís</strong> per part d’Extirpadents, el barber metge, <strong class="font-bold text-black">la tercera lletra de la paraula secreta és la lletra U</strong>.</p>
+      <p><strong class="font-bold text-black">Enhorabona, has rebut l’Emblema de l'Ull Etern</strong> per part de Crani-negre, el vígia, <strong class="font-bold text-black">la segona lletra de la paraula secreta és la lletra A</strong>.</p>
       <button onclick="tancarCofre()" class="btn-pirata">Tancar</button>
     </div>
   </div>
@@ -80,7 +82,7 @@
 
     document.getElementById('btnComprovar').addEventListener('click', () => {
       const valor = inputClau.value.trim().toLowerCase();
-      if (valor === 'pell') {
+      if (valor === 'telescopi') {
         error.classList.add('hidden');
         modalCofre.classList.add('visible');
       } else {

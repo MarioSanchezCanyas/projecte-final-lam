@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Facultat de Medicina - Extirpadents</title>
+  <title>Biblioteca de Comunicació - Krusty</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Pirata+One&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
@@ -15,23 +15,28 @@
 
   <div class="flex flex-col items-center min-h-screen px-4 py-6">
     <div class="header-wrapper">
-      <h1 class="title-pirata">Facultat de Medicina</h1>
+      <h1 class="title-pirata">Biblioteca de Comunicació</h1>
       <button class="btn-pirata mt-4" onclick="mostrarMapa()">🗺️ Mapa del tresor</button>
     </div>
 
     <div class="bg-scroll-pirata rounded-xl shadow-xl px-6 py-10 space-y-6 text-shadow text-[#3a2d12] backdrop-blur-sm bg-opacity-90 w-full max-w-md flex flex-col items-center">
-      <img src="images/personatge6.png" alt="Extirpadents" class="w-40 mb-6 rounded-xl shadow-lg float" />
+      <img src="images/personatge8.png" alt="Extirpadents" class="w-40 mb-6 rounded-xl shadow-lg float" />
 
       <div class="dialog">
-        <strong class="font-bold text-black">Sóc el senyor Extirpadents</strong>, antic barber de coberta i metge improvisat de tempestes.  
-        <br><br>
-        En alta mar, tot el que calia era un ganivet esmolat i un bon rom per fer de cirurgià... però avui, les claus no s’extreuen tan fàcilment.  
-        <br><br>
-        Demostra que tens cap, no només que en tens un! Heus aquí la meva prova:
+        He viatjat per mars que cap mapa s’atreveix a dibuixar.
+        He bussejat entre els esquelets de galions perduts, sentint els murmuris de les fustes podrides i les anelles oxidades.<br><br> Allà, al fons de l’abisme, vaig veure coses que cap ull humà hauria de veure.
+        <strong class="font-bold text-black">El meu nom és Krusty</strong>, arqueòleg marí i caçador de records enfonsats.
+        Fa dècades que cerco les petjades del Kraken, i encara avui no dormo sense que els seus tentacles em travessin els somnis.<br><br>
+        Molts han vingut abans que vosaltres, plens de valentia i paraules boniques. Però cap ha estat digne. Cap ha sabut respondre com cal.
+        Ara, esteu aquí. I potser... només potser... el vent ha canviat.<br><br>
+        Si voleu que m'uneixi a la vostra tripulació, haureu de demostrar que enteneu el valor del passat, no només per conquerir el futur... sinó per no repetir els mateixos errors.
+        Responeu-me això:
       </div>
 
+
       <div class="dialog">
-        <strong class="font-bold text-black">Quin és l’òrgan més gran del cos humà?</strong>
+        <strong class="font-bold text-black">Com s’anomena la ciència que estudia les restes materials de les civilitzacions antigues?
+        </strong>
       </div>
 
       <input type="text" id="clau" placeholder="Paraula secreta" />
@@ -46,7 +51,10 @@
   <!-- Modal Cofre -->
   <div id="cofre">
     <div class="modal-content">
-      <p><strong class="font-bold text-black">Enhorabona, has rebut l’Emblema del Tall Precís</strong> per part d’Extirpadents, el barber metge, <strong class="font-bold text-black">la tercera lletra de la paraula secreta és la lletra U</strong>.</p>
+      <p><strong class="font-bold text-black">Enhorabona, has rebut l’Emblema del Naufragi Antic</strong> per part de Krusty, l’arqueòleg marí, <strong class="font-bold text-black">la primera lletra de la paraula secreta és la lletra N</strong>.
+</strong>.
+</p>
+
       <button onclick="tancarCofre()" class="btn-pirata">Tancar</button>
     </div>
   </div>
@@ -80,7 +88,7 @@
 
     document.getElementById('btnComprovar').addEventListener('click', () => {
       const valor = inputClau.value.trim().toLowerCase();
-      if (valor === 'pell') {
+      if (valor === 'arqueologia') {
         error.classList.add('hidden');
         modalCofre.classList.add('visible');
       } else {

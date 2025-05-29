@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Facultat de Medicina - Extirpadents</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Pirata+One&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <img id="cofre-icon" src="images/cofrepirata.png" alt="Cofre" title="Sobre nosaltres" />
+  <div id="tooltip-cofre">Sobre nosaltres</div>
+
+  <div class="flex flex-col items-center min-h-screen px-4 py-6">
+    <div class="header-wrapper">
+      <h1 class="title-pirata">Facultat de Medicina</h1>
+      <button class="btn-pirata mt-4" onclick="mostrarMapa()">🗺️ Mapa del tresor</button>
+    </div>
+
+    <div class="bg-scroll-pirata rounded-xl shadow-xl px-6 py-10 space-y-6 text-shadow text-[#3a2d12] backdrop-blur-sm bg-opacity-90 w-full max-w-md flex flex-col items-center">
+      <img src="images/personatge1.png" alt="Extirpadents" class="w-40 mb-6 rounded-xl shadow-lg float" />
+
+      <div class="dialog">
+        <strong class="font-bold text-black">Sóc el senyor Extirpadents</strong>, antic barber de coberta i metge improvisat de tempestes.  
+        <br><br>
+        En alta mar, tot el que calia era un ganivet esmolat i un bon rom per fer de cirurgià... però avui, les claus no s’extreuen tan fàcilment.  
+        <br><br>
+        Demostra que tens cap, no només que en tens un!
+      </div>
+
+      <div class="dialog">
+        <strong class="font-bold text-black">Quin és l’òrgan més gran del cos humà?</strong>
+      </div>
+
+      <input type="text" id="clau" placeholder="Paraula secreta" />
+      <p id="missatgeError" class="text-red-600 font-semibold text-center hidden">Paraula incorrecta, prova una altra vegada.</p>
+
+      <div class="flex justify-center space-x-4 w-full">
+        <button class="btn-pirata" id="btnComprovar">Comprovar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cofre -->
+  <div id="cofre">
+    <div class="modal-content">
+      <p><strong class="font-bold text-black">Enhorabona, has rebut l’Emblema del Tall Precís</strong> per part d’Extirpadents, el barber metge, la <strong class="font-bold text-black">tercera lletra de la paraula secreta és la lletra U</strong>.</p>
+      <button onclick="tancarCofre()" class="btn-pirata">Tancar</button>
+    </div>
+  </div>
+
+  <!-- Modal Sobre Nosaltres -->
+  <div id="sobreNosaltres">
+    <div class="modal-content">
+      <h2>👑 Sobre nosaltres</h2>
+      <p>
+        Som un equip del grau de Comunicació Interactiva de la UAB, format per Mario, Albert, Pere i Josep. Espero que us agradi el nostre projecte final d'assignatura.
+      </p>
+      <button onclick="tancarSobreNosaltres()" class="btn-pirata">Tancar</button>
+    </div>
+  </div>
+
+  <!-- Modal Mapa -->
+  <div id="modalMapa">
+    <div class="modal-content">
+      <h2>🗺️ Mapa del tresor<br>Punt inicial: <strong>Plaça cívica</strong></h2>
+      <img src="images/mapauab.png" alt="Mapa del tresor" class="w-full rounded-lg mt-4 shadow-lg">
+      <button onclick="tancarMapa()" class="btn-pirata">Tancar</button>
+    </div>
+  </div>
+
+  <script>
+    const inputClau = document.getElementById('clau');
+    const error = document.getElementById('missatgeError');
+    const modalCofre = document.getElementById('cofre');
+    const modalSobreNosaltres = document.getElementById('sobreNosaltres');
+    const modalMapa = document.getElementById('modalMapa');
+
+    document.getElementById('btnComprovar').addEventListener('click', () => {
+      const valor = inputClau.value.trim().toLowerCase();
+      if (valor === 'pell') {
+        error.classList.add('hidden');
+        modalCofre.classList.add('visible');
+      } else {
+        error.classList.remove('hidden');
+      }
+    });
+
+    function tancarCofre() {
+      modalCofre.classList.remove('visible');
+    }
+
+    function tancarSobreNosaltres() {
+      modalSobreNosaltres.classList.remove('visible');
+    }
+
+    function mostrarMapa() {
+      modalMapa.classList.add('visible');
+    }
+
+    function tancarMapa() {
+      modalMapa.classList.remove('visible');
+    }
+
+    document.getElementById('cofre-icon').addEventListener('click', () => {
+      modalSobreNosaltres.classList.add('visible');
+    });
+
+    inputClau.addEventListener('input', () => {
+      error.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>

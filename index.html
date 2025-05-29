@@ -5,20 +5,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Plaça Cívica - Accés al Cofre</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Pirata+One&display=swap" rel="stylesheet" />
-
+  <!-- Añadimos las dos fuentes: Cinzel y Pirata One -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Pirata+One&display=swap" rel="stylesheet" />
   <style>
     body {
       background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
       background-color: #f3e8d0;
       font-family: 'Cinzel', serif;
       color: #2e260f;
-      padding: 0;
       margin: 0;
+      padding: 0;
     }
 
     .text-shadow {
       text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    }
+
+    .header-wrapper {
+      position: relative;
+      max-width: 768px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 1.5rem 1rem;
+    }
+
+    h1.title-pirata {
+      font-family: 'Pirata One', cursive;
+      font-size: 2.5rem;
+      color: #2e260f;
+      text-align: center;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+      margin: 0;
+      user-select: none;
+    }
+
+    #cofre-icon-wrapper {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 64px;
+      height: 64px;
+      background-color: #bfa76f;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 40;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    #cofre-icon-wrapper:hover {
+      transform: scale(1.1);
+      background-color: #a68e5a;
+    }
+
+    #cofre-icon {
+      width: 40px;
+      height: 40px;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    #tooltip-cofre {
+      position: fixed;
+      top: 5rem;
+      right: 2.5rem;
+      background: #bfa76f;
+      color: #2e260f;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.5rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+      z-index: 10;
+    }
+
+    #cofre-icon-wrapper:hover + #tooltip-cofre {
+      opacity: 1;
+    }
+
+    .bg-scroll-pirata {
+      background-image: url('images/Copia de Dret.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .calavera {
+      width: 202px;
+      height: auto;
+      filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
+      pointer-events: none;
+      margin-bottom: 1rem;
+      user-select: none;
     }
 
     .btn-pirata {
@@ -31,6 +116,7 @@
       transition: all 0.2s ease-in-out;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       font-family: 'Cinzel', serif;
+      cursor: pointer;
       margin-top: 0.75rem;
     }
 
@@ -38,70 +124,99 @@
       background-color: #a68e5a;
     }
 
-    #cofre {
-      animation: fadeIn 0.4s ease;
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
 
-    .bg-scroll-pirata {
-      background-image: url('Images/Copia de Dret.png');
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
+    .animate-fadeIn {
+      animation: fadeIn 0.4s ease;
     }
 
-    input {
-      font-family: 'Cinzel', serif;
+    /* Estilos para el modal imagen grande */
+    #modalMapa {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 1rem;
     }
+
+    #modalMapa img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 0.75rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      cursor: zoom-out;
+    }
+
   </style>
 </head>
 <body>
-
   <div class="flex flex-col items-center min-h-screen px-4 py-6">
-    <h1 class="text-4xl font-bold text-center text-[#2e260f] text-shadow mb-6" style="font-family: 'Pirata One', cursive;">
-      Plaça Cívica
-    </h1>
+    <div class="header-wrapper">
+      <h1 class="title-pirata">Plaça Cívica</h1>
+    </div>
 
-    <!-- Aquí quito justify-center -->
-    <div id="contenedor-principal" class="bg-scroll-pirata rounded-xl shadow-xl px-6 py-10 space-y-6 text-shadow text-[#3a2d12] backdrop-blur-sm bg-opacity-90 w-full max-w-md flex flex-col"></div>
+    <!-- Icono Cofre y Tooltip -->
+    <div id="cofre-icon-wrapper" tabindex="0">
+      <img id="cofre-icon" src="images/cofrepirata.png" alt="Cofre" />
+    </div>
+    <div id="tooltip-cofre">Sobre nosaltres</div>
+
+    <div id="contenedor-principal" class="bg-scroll-pirata rounded-xl shadow-xl px-6 py-10 space-y-6 text-shadow text-[#2e260f] backdrop-blur-sm bg-opacity-90 w-full max-w-md flex flex-col">
+      <!-- Història o formulari carregat per JS -->
+    </div>
+  </div>
+
+  <!-- Modal para imagen grande del mapa -->
+  <div id="modalMapa" role="dialog" aria-modal="true" aria-label="Mapa ampliat">
+    <img id="mapaAmpliat" src="" alt="Mapa ampliat de la UAB" />
   </div>
 
   <!-- Cofre Modal -->
   <div id="cofre" class="hidden fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4">
-    <div class="bg-white rounded-2xl shadow-2xl p-6 text-center max-w-sm w-full">
-      <h2 class="text-2xl font-bold text-gray-800 mb-2">🏆 Accés concedit</h2>
-      <p class="text-gray-600 mb-4">Has trobat el tresor ocult. Enhorabona, grumet!</p>
+    <div class="bg-[#f3e8d0cc] rounded-2xl shadow-2xl p-6 max-w-sm w-full text-center backdrop-blur-sm text-[#2e260f] text-shadow animate-fadeIn">
+      <h2 class="text-2xl font-bold mb-4">🏆 Emblema Final</h2>
+      <p class="mb-6 font-medium">
+        Enhorabona! Has completat totes les proves<br> i has descobert la paraula secreta: <strong>NAUTAES</strong>.
+      </p>
+
+      
       <button onclick="tancarCofre()" class="btn-pirata">Tancar</button>
+    </div>
+  </div>
+
+  <!-- Modal Sobre Nosaltres -->
+  <div id="sobreNosaltres" class="hidden fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full text-center">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">👑 Sobre nosaltres</h2>
+      <p class="mb-6 text-gray-700">
+        Som un equip del grau de Comunicació Interactiva de la UAB, format per Mario, Albert, Pere i Josep. Esperem que us agradi el nostre projecte final d'assignatura.
+      </p>
+      <button onclick="tancarSobreNosaltres()" class="btn-pirata">Tancar</button>
     </div>
   </div>
 
   <script>
     const contenedor = document.getElementById('contenedor-principal');
+    const sobreNosaltresModal = document.getElementById('sobreNosaltres');
+    const cofreModal = document.getElementById('cofre');
+    const btnCofreWrapper = document.getElementById('cofre-icon-wrapper');
 
     const historiaHTML = `
-      <div class="flex justify-center mb-4">
-        <img src="images/calavera.png" alt="Calavera" class="w-28 h-auto drop-shadow-md pointer-events-none" />
+      <div class="flex justify-center">
+        <img src="images/calavera.png" alt="Calavera" class="calavera" />
       </div>
-      <p>
-        Fa molts segles, pirates de tot el món es reunien a la UAB, un lloc sagrat de coneixement i recerca. Van crear el Projecte Kraken per caçar la criatura més temuda dels oceans: el Kraken, un monstre gegantí amb tentacles poderosos.
-      </p>
-      <p>
-        La tripulació va lluitar amb valentia, però només un va sobreviure per explicar la història i ensenyar-la a les futures generacions.
-      </p>
-      <p>
-        Ara, seguint el seu llegat, ets tu qui ha de trobar la nova tripulació per continuar aquesta odissea.
-      </p>
-      <p>
-        La UAB torna a ser el cor de la recerca pirata i el lloc on trobaràs els set futurs corsaris. Guiat amb aquest mapa, on hi ha una indicació a la porta de cada facultat.
-      </p>
+      <p class='text-xl text-black'>Fa molts segles, pirates de tot el món es reunien a la UAB, un lloc sagrat de coneixement i recerca. Van crear el Projecte Kraken per caçar la criatura més temuda dels oceans.</p>
+      <p class='text-xl text-black'>La tripulació va lluitar amb valentia, però només un va sobreviure per explicar la història.</p>
+      <p class='text-xl text-black'>Ara, ets tu qui ha de trobar la nova tripulació per continuar aquesta odissea.</p>
+      <p class='text-xl text-black'>La UAB torna a ser el cor de la recerca pirata. Utilitza aquest mapa per seguir la pista.</p>
       <div class="flex justify-center my-4">
-        <a href="images/mapauab.png" target="_blank">
-          <img src="images/mapauab.png" alt="Mapa pirata" class="w-full max-w-xs rounded shadow-md hover:scale-105 transition-transform duration-300" />
-        </a>
+        <img id="mapaUAB" src="images/mapauab.png" alt="Mapa pirata" class="w-full max-w-xs rounded shadow-md hover:scale-105 transition-transform duration-300 cursor-pointer" />
       </div>
       <div class="flex justify-center">
         <button id="btnOk" class="btn-pirata">Tinc la clau</button>
@@ -110,54 +225,79 @@
 
     const formulariHTML = `
       <p class="text-center font-bold">🔐 Introdueix la paraula secreta per obrir el cofre:</p>
-      <input type="text" id="clau" placeholder="Paraula secreta" class="w-full p-3 mt-6 mb-4 border border-[#8b7d4a] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e260f88] text-[#2e260f] font-semibold" />
-      <div class="flex justify-center gap-4 mt-6">
-        <button id="btnTornar" class="btn-pirata">Tornar</button>
+      <input type="text" id="clau" placeholder="Paraula secreta" class="w-full p-3 mt-6 mb-1 border border-[#8b7d4a] rounded-lg text-center font-semibold" />
+      <p id="missatgeError" class="text-red-600 font-semibold text-center mb-4 hidden">Paraula incorrecta, prova una altra vegada.</p>
+      <div class="flex justify-center space-x-4">
         <button id="btnComprovar" class="btn-pirata">Comprovar</button>
+        <button id="btnTornar" class="btn-pirata">Tornar</button>
       </div>
-      <div id="missatge" class="text-center text-red-600 font-bold mt-3 min-h-[1.2rem]"></div>
     `;
 
-    function mostrarHistoria() {
+    function carregarHistoria() {
       contenedor.innerHTML = historiaHTML;
-      contenedor.style.paddingTop = "";
-      document.getElementById('btnOk').addEventListener('click', mostrarFormulari);
-    }
-
-    function mostrarFormulari() {
-      contenedor.innerHTML = formulariHTML;
-      contenedor.style.paddingTop = "4rem";
-
-      const clauInput = document.getElementById('clau');
-      const missatge = document.getElementById('missatge');
-      const cofre = document.getElementById('cofre');
-
-      document.getElementById('btnTornar').addEventListener('click', () => {
-        missatge.textContent = '';
-        clauInput.value = '';
-        cofre.classList.add('hidden');
-        mostrarHistoria();
+      document.getElementById('btnOk').addEventListener('click', () => {
+        contenedor.innerHTML = formulariHTML;
+        assignarEventsFormulari();
       });
 
+      // Añadimos evento para agrandar el mapa al hacer click
+      const mapa = document.getElementById('mapaUAB');
+      mapa.addEventListener('click', () => {
+        const modal = document.getElementById('modalMapa');
+        const imgModal = document.getElementById('mapaAmpliat');
+        imgModal.src = mapa.src;
+        modal.style.display = 'flex';
+      });
+    }
+
+    function assignarEventsFormulari() {
+      const missatgeError = document.getElementById('missatgeError');
+      const inputClau = document.getElementById('clau');
+
       document.getElementById('btnComprovar').addEventListener('click', () => {
-        const clauCorrecta = "nautaes";
-        const entrada = clauInput.value.trim().toLowerCase();
-        if (entrada === clauCorrecta) {
-          missatge.textContent = '';
-          cofre.classList.remove('hidden');
+        const valor = inputClau.value.trim().toLowerCase();
+        if (valor === 'nautaes') {
+          missatgeError.classList.add('hidden');
+          cofreModal.classList.remove('hidden');
         } else {
-          missatge.textContent = '❌ Paraula incorrecta. Torna-ho a intentar.';
-          cofre.classList.add('hidden');
+          missatgeError.classList.remove('hidden');
         }
+      });
+
+      document.getElementById('btnTornar').addEventListener('click', () => {
+        carregarHistoria();
       });
     }
 
     function tancarCofre() {
-      document.getElementById('cofre').classList.add('hidden');
+      cofreModal.classList.add('hidden');
+      carregarHistoria();
     }
 
-    window.tancarCofre = tancarCofre;
-    mostrarHistoria();
+    function tancarSobreNosaltres() {
+      sobreNosaltresModal.classList.add('hidden');
+    }
+
+    function mostrarSobreNosaltres() {
+      sobreNosaltresModal.classList.remove('hidden');
+    }
+
+    btnCofreWrapper.addEventListener('click', mostrarSobreNosaltres);
+    btnCofreWrapper.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        mostrarSobreNosaltres();
+        e.preventDefault();
+      }
+    });
+
+    // Cerrar modal mapa al hacer clic sobre la imagen ampliada
+    const modalMapa = document.getElementById('modalMapa');
+    modalMapa.addEventListener('click', () => {
+      modalMapa.style.display = 'none';
+      document.getElementById('mapaAmpliat').src = '';
+    });
+
+    carregarHistoria();
   </script>
 </body>
 </html>
